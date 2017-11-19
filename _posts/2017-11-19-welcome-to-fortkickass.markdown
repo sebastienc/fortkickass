@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title:  "Welcome to Fort Kickass!"
 date:   2017-11-19 11:00:37 -0500
 categories: fortkickass update

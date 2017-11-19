@@ -21,11 +21,6 @@ GEM
       jekyll (~> 3.3)
     jekyll-sass-converter (1.5.0)
       sass (~> 3.4)
-    jekyll-seo-tag (2.3.0)
-      jekyll (~> 3.3)
-    jekyll-theme-slate (0.1.0)
-      jekyll (~> 3.5)
-      jekyll-seo-tag (~> 2.0)
     jekyll-watch (1.5.0)
       listen (~> 3.0, < 3.1)
     kramdown (1.15.0)
@@ -56,10 +51,7 @@ PLATFORMS
 DEPENDENCIES
   jekyll (~> 3.6.2)
   jekyll-feed (~> 0.6)
-  jekyll-theme-slate (~> 0.1.0)
-  listen (~> 3.0.6)
   minima (~> 2.0)
-  rouge (~> 2.2.1)
   tzinfo-data
 
 BUNDLED WITH
