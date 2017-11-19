@@ -1,0 +1,2 @@
+# fortkickass
+Fortkickass blog
