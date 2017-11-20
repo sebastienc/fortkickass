@@ -13,6 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
+author: Sebastien Coutu
 title: Fort Kickass
 email: sebastien.coutu@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
@@ -21,6 +22,9 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://fortkickass.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: sebcoutu
 github_username:  sebastienc
+slack_username: fort-kickass-group-hq
+timezone: America/New_York
+encoding: utf-8
 
 # Build settings
 markdown: kramdown

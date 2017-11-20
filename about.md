@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About Fortkickass
+title: About
 permalink: /about/
 ---
 
