@@ -17,7 +17,7 @@ author: Sebastien Coutu
 title: Fort Kickass
 email: sebastien.coutu@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Blog about my experiments with various technologies.
+  Blog about experiments with various technologies.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://fortkickass.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: sebcoutu
@@ -28,9 +28,18 @@ encoding: utf-8
 
 # Build settings
 markdown: kramdown
-theme: minima
+theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
+  - jekyll-paginate
+  - jekyll-toc
+paginate: 5
+show_downloads: false
+defaults:
+  - scope:
+      path: "assets/images"
+    values:
+      image: true
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
