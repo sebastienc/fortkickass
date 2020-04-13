@@ -28,6 +28,8 @@ jobs:
           # the `repo_deployment` scopes needed to deploy to GH Pages.
           secret_gh_pages_api_token: ${{ secrets.GH_PAGES_TOKEN }}
           post_build_commands: |
-            echo "Will add CNAME file to $(pwd)/_site"; \
-            echo -n 'blog.fortkickass.io' > _site/CNAME; \
-            ls -ld *;
+            echo "Will add CNAME file to $(pwd)"; \
+            echo "Listing files locally"; \
+            ls -ld *; \
+            echo "Listing files in JEKYLL_DATA_DIR $JEKYLL_DATA_DIR"; \
+            ls -ld $JEKYLL_DATA_DIR/*;
