@@ -2,7 +2,8 @@
 layout: post
 title:  "PKI adventures - part 1"
 date:   2017-12-23 13:00:00 -0500
-categories: pki kubernetes
+categories: [pki]
+tags: [pki, kubernetes]
 toc: true
 ---
 This will be a post about my adventures to create a proper PKI environment. 
