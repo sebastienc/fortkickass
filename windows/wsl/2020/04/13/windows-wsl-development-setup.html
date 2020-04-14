@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Windows WSL development setup for Python and Docker | Fort Kickass</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Windows WSL development setup for Python and Docker" />
+<meta name="author" content="Sebastien Coutu" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In the last few months, I’ve decided to switch my home computer from a Mac to a PC. The reasoning behind it was pretty simple: I wanted to game a little more and most of the games I like just work better on Windows. That being said, the geek in me still wants to do some development sometimes and play with technologies that are more suited for Linux and for *nix based OSes." />
+<meta property="og:description" content="In the last few months, I’ve decided to switch my home computer from a Mac to a PC. The reasoning behind it was pretty simple: I wanted to game a little more and most of the games I like just work better on Windows. That being said, the geek in me still wants to do some development sometimes and play with technologies that are more suited for Linux and for *nix based OSes." />
+<link rel="canonical" href="https://blog.fortkickass.io/windows/wsl/2020/04/13/windows-wsl-development-setup.html" />
+<meta property="og:url" content="https://blog.fortkickass.io/windows/wsl/2020/04/13/windows-wsl-development-setup.html" />
+<meta property="og:site_name" content="Fort Kickass" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-13T19:00:00-04:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Sebastien Coutu"},"description":"In the last few months, I’ve decided to switch my home computer from a Mac to a PC. The reasoning behind it was pretty simple: I wanted to game a little more and most of the games I like just work better on Windows. That being said, the geek in me still wants to do some development sometimes and play with technologies that are more suited for Linux and for *nix based OSes.","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.fortkickass.io/windows/wsl/2020/04/13/windows-wsl-development-setup.html"},"@type":"BlogPosting","url":"https://blog.fortkickass.io/windows/wsl/2020/04/13/windows-wsl-development-setup.html","headline":"Windows WSL development setup for Python and Docker","dateModified":"2020-04-13T19:00:00-04:00","datePublished":"2020-04-13T19:00:00-04:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/assets/css/style.css?v=6a2781c3eaec245002c1131f2103c2bd5c0d8792">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Windows WSL development setup for Python and Docker</h1>
+      <h1 class="project-tagline">Fort Kickass</h1>
+    </section>
+
+    <section class="main-content">
+
+      
+         <h2>Table of contents</h2>
+        <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#install-and-configure-windows-sub-system-for-linux-wsl">Install and configure Windows Sub-system for Linux (WSL)</a></li>
+<li class="toc-entry toc-h1"><a href="#install-and-configure-docker-for-windows">Install and configure Docker for Windows</a></li>
+<li class="toc-entry toc-h1"><a href="#install-and-configure-windows-terminal">Install and configure Windows Terminal</a></li>
+<li class="toc-entry toc-h1"><a href="#install-and-configure-zsh-docker-and-others-in-wsl">Install and configure zsh, Docker and others in WSL.</a></li>
+<li class="toc-entry toc-h1"><a href="#setup-python-in-wsl">Setup Python in WSL</a></li>
+<li class="toc-entry toc-h1"><a href="#install-and-configure-visual-studio-code">Install and configure Visual Studio Code</a></li>
+</ul><p>In the last few months, I’ve decided to switch my home computer from a Mac to a PC. The reasoning behind it was pretty simple: I wanted to game a little more and most of the games I like just work better on Windows. That being said, the geek in me still wants to do some development sometimes and play with technologies that are more suited for Linux and for *nix based OSes.</p>
+
+<p>That being said, on that PC, I’ve had a dual-boot with Linux installed but I was wondering what the options were on Windows 10 these days.</p>
+
+<h1 id="install-and-configure-windows-sub-system-for-linux-wsl">
+<a class="anchor" href="#install-and-configure-windows-sub-system-for-linux-wsl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install and configure Windows Sub-system for Linux (WSL)</h1>
+
+<p>This is well known stuff and there’s a bunch of well made articles about it. Personally, I’ve followed Microsoft’s documentation  <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">here</a>. At the time of writing this, I’m still waiting for WSL2 to come out of development. If rumors are right, this should happen in May 2020.</p>
+
+<p>I’ll document the steps I took and some of the tweaks I made to have it work for my setup.</p>
+
+<ol>
+  <li>In powershell as administrator</li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Enable-WindowsOptionalFeature <span class="nt">-Online</span> <span class="nt">-FeatureName</span> Microsoft-Windows-Subsystem-Linux
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>Reboot the system when this step finishes and prompted.</p>
+  </li>
+  <li>
+    <p>Install your favorite distribution from the Microsoft store. Personnally, I’ve used <a href="https://www.microsoft.com/store/apps/9MSVKQC78PK6">Debian</a>. Instructions will be similar as Ubuntu.</p>
+  </li>
+  <li>
+    <p>Initialize your distro as explained <a href="https://docs.microsoft.com/en-us/windows/wsl/initialize-distro">here</a>.</p>
+  </li>
+  <li>
+    <p>Make sure the distro is up to date.</p>
+  </li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt upgrade
+</code></pre></div></div>
+
+<ol>
+  <li>Create a WSL configuration that will make it compatible with Docker and development. This will switch the mounts of the Windows volumes from <code class="language-plaintext highlighter-rouge">/mnt/c</code> to <code class="language-plaintext highlighter-rouge">/c</code> and so on.</li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo cat</span> <span class="o">&gt;</span>/etc/wsl.conf <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh">
+# Enable extra metadata options by default
+[automount]
+enabled = true
+root = /
+options = "metadata,umask=22,fmask=11"
+mountFsTab = false
+
+# Enable DNS – even though these are turned on by default, we’ll specify here just to be explicit.
+[network]
+generateHosts = true
+generateResolvConf = true
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<h1 id="install-and-configure-docker-for-windows">
+<a class="anchor" href="#install-and-configure-docker-for-windows" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install and configure Docker for Windows</h1>
+
+<p>This part will be expected to change in the future when WSL2 comes out. For now, we’ll stick with having Docker in its seperate VM.</p>
+
+<p>Installation instructions are found <a href="https://docs.docker.com/docker-for-windows/install/">here</a>. In summary:</p>
+
+<ol>
+  <li>
+    <p>Download the package from <a href="https://hub.docker.com/editions/community/docker-ce-desktop-windows/">Docker hub</a> and install it.</p>
+  </li>
+  <li>
+    <p>Go to <a href="https://docs.docker.com/docker-for-windows/#docker-settings-dialog">Docker Settings</a> and check the “Expose daemon on tcp://localhost:2375 without TLS” option. Then click on “Apply and restart”.</p>
+  </li>
+</ol>
+
+<h1 id="install-and-configure-windows-terminal">
+<a class="anchor" href="#install-and-configure-windows-terminal" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install and configure Windows Terminal</h1>
+
+<p>On Windows, we need a proper shell. In the free category, the closest I found to a proper terminal on Windows is <a href="https://github.com/microsoft/terminal">Windows Terminal</a>. This is a project from Microsoft which is still in preview but for now works quite well. I’ve started to play with it and I’ve only started to customize it to my taste. Here’s what I did:</p>
+
+<ol>
+  <li>
+    <p>Get the it from the <a href="https://aka.ms/windowsterminal">Microsoft Store</a> and install it. This will ensure you get updates.</p>
+  </li>
+  <li>
+    <p>Go to the “Settings” window by pressing <code class="language-plaintext highlighter-rouge">Ctrl-,</code>.</p>
+  </li>
+  <li>
+    <p>Change the <code class="language-plaintext highlighter-rouge">defautProfile</code> value for the WSL <code class="language-plaintext highlighter-rouge">guid</code> value.</p>
+  </li>
+  <li>
+    <p>Add the <code class="language-plaintext highlighter-rouge">initialCols</code> with a value of <code class="language-plaintext highlighter-rouge">180</code> to the main map.</p>
+  </li>
+  <li>
+    <p>Add the <code class="language-plaintext highlighter-rouge">initialRows</code> with a value of <code class="language-plaintext highlighter-rouge">40</code> to the main map.</p>
+  </li>
+  <li>
+    <p>Add the <code class="language-plaintext highlighter-rouge">initcopyOnSelectialCols</code> with a value of <code class="language-plaintext highlighter-rouge">true</code> to the main map.</p>
+  </li>
+  <li>
+    <p>In the <code class="language-plaintext highlighter-rouge">defaults</code> map, add the <code class="language-plaintext highlighter-rouge">colorScheme</code> with the value <code class="language-plaintext highlighter-rouge">"One Half Dark"</code> and the <code class="language-plaintext highlighter-rouge">fontFace</code> attribute to <code class="language-plaintext highlighter-rouge">"Operator Mono"</code>.</p>
+  </li>
+</ol>
+
+<p>You should end up with a settings JSON that looks like this:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"$schema"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://aka.ms/terminal-profiles-schema"</span><span class="p">,</span><span class="w">
+
+    </span><span class="nl">"defaultProfile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"initialCols"</span><span class="p">:</span><span class="w"> </span><span class="mi">180</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"initialRows"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"copyOnSelect"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"profiles"</span><span class="p">:</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"defaults"</span><span class="p">:</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"padding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10, 10, 10, 10"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"fontFace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Operator Mono"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"colorScheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"One Half Dark"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"list"</span><span class="p">:</span><span class="w">
+        </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"guid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{61c54bbd-c2c6-5271-96e7-009a87ff44bf}"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Windows PowerShell"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"commandline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"powershell.exe"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"hidden"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"guid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{0caa0dad-35be-5f56-a8ff-afceeeaa6101}"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cmd"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"commandline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cmd.exe"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"hidden"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"guid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"hidden"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Debian"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Windows.Terminal.Wsl"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"guid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{b453ae62-4e3d-5e58-b989-0a998ec441b8}"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"hidden"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Azure Cloud Shell"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Windows.Terminal.Azure"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"guid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{574e775e-4f2a-5b96-ac1e-a2962a402336}"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"hidden"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PowerShell"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Windows.Terminal.PowershellCore"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+
+    </span><span class="nl">"schemes"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+
+    </span><span class="nl">"keybindings"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h1 id="install-and-configure-zsh-docker-and-others-in-wsl">
+<a class="anchor" href="#install-and-configure-zsh-docker-and-others-in-wsl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install and configure zsh, Docker and others in WSL.</h1>
+
+<p>I’m starting to get used to zsh since it’s now the new default shell on MacOS so I’ll set it up and experiment on this setup.</p>
+
+<ol>
+  <li>
+    <p>Start a Windows Terminal.</p>
+  </li>
+  <li>Install zsh, direnv and pre-requisites to <a href="https://github.com/ohmyzsh/ohmyzsh">Oh My zsh</a>.
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get <span class="nb">install </span>zsh curl wget git direnv
+</code></pre></div>    </div>
+  </li>
+  <li>Install via <code class="language-plaintext highlighter-rouge">curl</code>
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>sh <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="si">)</span><span class="s2">"</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Edit your <code class="language-plaintext highlighter-rouge">~/.zshrc</code> and setup your preferences.
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>vi ~/.zshrc
+</code></pre></div>    </div>
+    <p>Personnaly, I’ve setup the following options</p>
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">"maran"</span>
+<span class="nv">CASE_SENSITIVE</span><span class="o">=</span><span class="s2">"true"</span>
+<span class="nv">plugins</span><span class="o">=(</span>git debian<span class="o">)</span>
+</code></pre></div>    </div>
+
+    <p>In the <code class="language-plaintext highlighter-rouge">User configuration</code> section, I did the following:</p>
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/bin:<span class="nv">$HOME</span>/.local/bin:<span class="nv">$PATH</span>
+<span class="c"># Docker engine</span>
+<span class="nb">export </span><span class="nv">DOCKER_HOST</span><span class="o">=</span>tcp://127.0.0.1:2375
+<span class="c"># AWS Variables</span>
+<span class="nb">source</span> <span class="nv">$HOME</span>/.aws/env.sh
+<span class="c"># Add an SSH agent.</span>
+<span class="nb">eval</span> <span class="si">$(</span>ssh-agent<span class="si">)</span> <span class="o">&gt;</span> /dev/null
+<span class="c"># Hook up direnv</span>
+<span class="nb">eval</span> <span class="s2">"</span><span class="si">$(</span>direnv hook zsh<span class="si">)</span><span class="s2">"</span>
+<span class="c"># Ruby Crap</span>
+<span class="c"># Install Ruby Gems to ~/gems</span>
+<span class="nb">export </span><span class="nv">GEM_HOME</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/gems"</span>
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/gems/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
+</code></pre></div>    </div>
+
+    <p>This will:</p>
+    <ul>
+      <li>Add the local bin to the path. Also if you do a <code class="language-plaintext highlighter-rouge">mkdir -p $HOME/bin</code>, you can put binaries in there.</li>
+      <li>Set <code class="language-plaintext highlighter-rouge">DOCKER_HOST</code> to use the TCP socket we opened previously.</li>
+      <li>Create an SSH agent with your local keys.</li>
+      <li>Enable <code class="language-plaintext highlighter-rouge">direnv</code>.</li>
+      <li>Since I’m using Jekyll for this blog. Install the Ruby stuff. <code class="language-plaintext highlighter-rouge">mkdir -p $HOME/gems</code> would help.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Exit and restart Windows Terminal and see your changes.</p>
+  </li>
+  <li>
+    <p>Install Docker in the WSL Debian. We will follow instructions in <a href="https://docs.docker.com/engine/install/debian/">here</a></p>
+
+    <ul>
+      <li>Install pre-requisites
+        <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update
+<span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="se">\</span>
+ apt-transport-https <span class="se">\</span>
+ ca-certificates <span class="se">\</span>
+ curl <span class="se">\</span>
+ gnupg-agent <span class="se">\</span>
+ software-properties-common
+</code></pre></div>        </div>
+      </li>
+      <li>Add the GPG key.
+        <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>curl <span class="nt">-fsSL</span> https://download.docker.com/linux/debian/gpg | <span class="nb">sudo </span>apt-key add -
+</code></pre></div>        </div>
+      </li>
+      <li>Add the repository
+        <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>add-apt-repository <span class="se">\</span>
+<span class="s2">"deb [arch=amd64] https://download.docker.com/linux/debian </span><span class="se">\</span><span class="s2">
+</span><span class="si">$(</span>lsb_release <span class="nt">-cs</span><span class="si">)</span><span class="s2"> </span><span class="se">\</span><span class="s2">
+stable"</span>
+</code></pre></div>        </div>
+      </li>
+      <li>Install the packages.
+        <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt-get update
+ <span class="nb">sudo </span>apt-get <span class="nb">install </span>docker-ce docker-ce-cli containerd.io
+</code></pre></div>        </div>
+      </li>
+      <li>Add your user to the <code class="language-plaintext highlighter-rouge">docker</code> group.
+        <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker <span class="nv">$USER</span>
+</code></pre></div>        </div>
+      </li>
+      <li>Test docker
+        <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>docker run hello-world
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h1 id="setup-python-in-wsl">
+<a class="anchor" href="#setup-python-in-wsl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup Python in WSL</h1>
+
+<ol>
+  <li>Install Python 3.
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get <span class="nb">install </span>build-essential python3.7 python3.7-dev python3-pip
+</code></pre></div>    </div>
+  </li>
+  <li>Setup links for <code class="language-plaintext highlighter-rouge">python</code> and <code class="language-plaintext highlighter-rouge">pip</code>
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>update-alternatives <span class="nt">--install</span> /usr/bin/python python /usr/bin/python3 1
+<span class="nb">sudo </span>update-alternatives <span class="nt">--install</span> /usr/bin/pip pip /usr/bin/pip3 1
+</code></pre></div>    </div>
+  </li>
+  <li>Update <code class="language-plaintext highlighter-rouge">pip</code>
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>pip <span class="nb">install</span> <span class="nt">--upgrade</span> pip
+</code></pre></div>    </div>
+  </li>
+  <li>Install <code class="language-plaintext highlighter-rouge">pipenv</code>
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">--user</span> pipenv
+</code></pre></div>    </div>
+  </li>
+  <li>See that <code class="language-plaintext highlighter-rouge">pipenv</code> is working properly.
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>pipenv <span class="nt">--version</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h1 id="install-and-configure-visual-studio-code">
+<a class="anchor" href="#install-and-configure-visual-studio-code" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install and configure Visual Studio Code</h1>
+
+<p>The first IDE I’m planning on testing is Visual Studio Code. It has a nice integration with WSL that’s free. Here’s how to install and do a basic configuration for it:</p>
+
+<ol>
+  <li>
+    <p><a href="https://code.visualstudio.com/download">Download</a> Visual Studio Code.</p>
+  </li>
+  <li>
+    <p>Follow the setup instructions <a href="https://code.visualstudio.com/docs/setup/setup-overview">here</a>.</p>
+  </li>
+  <li>
+    <p>Install the remote components by follow the instructions <a href="https://code.visualstudio.com/remote-tutorials/wsl/getting-started">here</a>.</p>
+  </li>
+  <li>
+    <p>Since I’m going to follow the <a href="https://code.visualstudio.com/docs/languages/python">Python instructions</a>.</p>
+  </li>
+  <li>
+    <p>We can now issue <code class="language-plaintext highlighter-rouge">code .</code> while in a directory in Windows Terminal and this will pop-up Visual Studio Code in WSL.</p>
+  </li>
+</ol>
+
+<p>That’s all folks!</p>
+
+      
+      <p>
+      	Return to <a href="https://blog.fortkickass.io">Fort Kickass</a>.
+      </p>
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="https://github.com/sebastienc/fortkickass">fortkickass</a> is maintained by <a href="https://github.com/sebastienc">sebastienc</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
+</html>
+
